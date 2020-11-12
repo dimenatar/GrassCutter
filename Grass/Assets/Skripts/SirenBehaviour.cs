@@ -11,7 +11,7 @@ public class SirenBehaviour : MonoBehaviour
     public bool goOn;
     public bool IsPlaying;
     public AudioSource audio;
-    
+    int counter = 0;
 
     void Start()
     {
@@ -41,14 +41,35 @@ public class SirenBehaviour : MonoBehaviour
     {
         if (needSiren)
         {
+            /*
             if (!IsPlaying)
             {
+                audio.Stop();
+                audio.Play();
+                IsPlaying = true;
+            }*/
+            if (!IsPlaying)
+            {
+                
                 audio.Play();
                 IsPlaying = true;
             }
-             
+            //else
+            //{
+            //    if (counter >=50)
+            //    {
+            //        counter = 0;
+            //        IsPlaying = false;
+            //    }
+            //    else
+            //    {
+            //        counter++;
+            //    }
+            //}
 
-            
+
+            //audio.Play();
+
             if (goOn)
             {
                 if (Siren.range < 3f) Siren.range += 0.2f;
@@ -67,6 +88,7 @@ public class SirenBehaviour : MonoBehaviour
         else
         {
             Siren.range = 0;
+            IsPlaying = false;
             //audio.Stop();
         }
 

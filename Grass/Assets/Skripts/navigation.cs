@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class navigation : MonoBehaviour {
 
+    public GameObject mainCube;
     public GameObject cube;
     public Vector2 kord_shvabri;
     public float CoordX;
@@ -19,6 +20,8 @@ public class navigation : MonoBehaviour {
     public Button b3;
 
     public AudioSource audio;
+    public Light light;
+
 
     public bool needSiren;
 
@@ -80,7 +83,7 @@ public class navigation : MonoBehaviour {
             CoordX = cube.transform.position.x;
             CoordY = cube.transform.position.y;
             CoordZ = cube.transform.position.z;
-            if (CoordX < 43f || CoordY > -36f)
+            if (CoordX < 43f || CoordY > -37f)
             {
                 if (left_to_right)
                 {
@@ -172,7 +175,7 @@ public class navigation : MonoBehaviour {
             CoordX = cube.transform.position.x;
             CoordY = cube.transform.position.y;
             CoordZ = cube.transform.position.z;
-            if (CoordX < 45 || CoordY > -31)
+            if (CoordX < 46 || CoordY > -31)
             {
                 if (Top_To_Down2)
                 {
@@ -366,6 +369,7 @@ public class navigation : MonoBehaviour {
     GameObject[,] CubeArray = new GameObject[80, 80];
 	void Start ()
     {
+        mainCube = GameObject.FindWithTag("MainPole");
         Time.timeScale = 1f;
         for (int i =0; i < 80; i ++)
         {
@@ -378,15 +382,35 @@ public class navigation : MonoBehaviour {
                 CubeArray[i, j].transform.localScale = new Vector2(1f,1f);
                 CubeArray[i, j].GetComponent<Renderer>().sharedMaterial = mater;
                 //grass_counter++;
+                CubeArray[i, j].AddComponent<ObjectColor>();
+                CubeArray[i, j].transform.parent = mainCube.transform;
 
             }
         }
         InvokeRepeating("road1", 0, 0.1f);
-        
+        InvokeRepeating("PlsHelpThisComp", 0, 0.01f);
 	}
-	
-	// Update is called once per frame
-	void Update () {
+    public GameObject CubeColor;
+    public bool needUpdate = false;
+    void PlsHelpThisComp()
+    {
+        if (needUpdate)
+        {
+            for (int i =0; i < 80; i ++)
+            {
+                for (int j = 0; j < 80; j++)
+                {
+                    if (CubeArray[i,j] != null)
+                    {
+                        CubeArray[i,j].GetComponent<Renderer>().sharedMaterial = CubeColor.GetComponent<Renderer>().sharedMaterial;
+                    }
+                }
+            }
+            needUpdate = false;
+        }
+    }
+    // Update is called once per frame
+    void Update () {
         if (cutter.GetComponent<CutterEnter>().grass_counter >3300)
         {
              DoFirstRoad = false;
@@ -402,6 +426,7 @@ public class navigation : MonoBehaviour {
             b3.GetComponent<Transform>().localScale = new Vector2(0, 0);
 
             //grass_counter = 0;
+            
         }
 	}
 
@@ -420,6 +445,7 @@ public class navigation : MonoBehaviour {
         b3.GetComponent<Transform>().localScale = new Vector2(1, 1);
 
         needSiren = false;
-        audio.Stop();
+
+        light.GetComponent<SirenBehaviour>().audio.Stop();
     }
 }

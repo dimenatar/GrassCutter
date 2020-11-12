@@ -5,6 +5,7 @@ using UnityEngine;
 public class CutterEnter : MonoBehaviour
 {
     public double grass_counter;
+    public GameObject cutter;
     
     /*public bool DoFirstRoad = false;
     public bool DoSecondRoad = false;
@@ -18,8 +19,11 @@ public class CutterEnter : MonoBehaviour
         {
             if (other.tag == "grass")
             {
-            Destroy(other.gameObject);
-            grass_counter += 1;
+            if (cutter.GetComponent<navigation>().DoFirstRoad || cutter.GetComponent<navigation>().DoSecondRoad || cutter.GetComponent<navigation>().DoThirdRoad)
+            {
+                Destroy(other.gameObject);
+                grass_counter += 1;
+            }
             }
         
             

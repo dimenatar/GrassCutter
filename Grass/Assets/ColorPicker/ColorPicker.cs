@@ -13,19 +13,19 @@ public class ColorPicker : MonoBehaviour {
 	public bool useExternalDrawer = false;
 	public int drawOrder = 0;
 
-	private Color TempColor; 
-	private Color SelectedColor;
+	public Color TempColor;
+    public Color SelectedColor;
 
-	static ColorPicker activeColorPicker = null;
+    public static ColorPicker activeColorPicker = null;
 
-	enum ESTATE
+    public enum ESTATE
 	{
 		Hidden,
 		Showed,
 		Showing,
 		Hidding
-	}; 
-	ESTATE mState = ESTATE.Hidden;
+	};
+    public ESTATE mState = ESTATE.Hidden;
 	
 	int sizeFull = 200;
 	int sizeHidden = 20;
